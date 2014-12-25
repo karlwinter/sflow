@@ -15,17 +15,25 @@ class SflowStorage
                   "frame_length" => "sflow_frame_length",
                   "frame_length_multiplied" => "sflow_frame_length_multiplied",
                   "tcp_src_port" => "sflow_tcp_src_port",
-                  "tcp_dst_port" => "sflow_tcp_dst_port"
+                  "tcp_dst_port" => "sflow_tcp_dst_port",
+                  "udp_src_port" => "sflow_udp_src_port",
+                  "udp_dst_port" => "sflow_udp_dst_port",
+                  "i_octets" => "sflow_i_octets",
+                  "o_octets" => "sflow_o_octets",
+                  "interface" => "sflow_interface",
+                  "input_packets_error" => "sflow_input_packets_error",
+                  "output_packets_error" => "sflow_output_packets_error"
+
       }
 
       prefixed_sflow = Hash[sflow.map {|k, v| [mappings[k], v] }]
 
-      if sflow['i_iface_value'] and sflow['o_iface_value']
-        i_iface_name = {"sflow_i_iface_name" => SNMPwalk.mapswitchportname(sflow['agent_address'],sflow['i_iface_value'])}
-        o_iface_name = {"sflow_o_iface_name" => SNMPwalk.mapswitchportname(sflow['agent_address'],sflow['o_iface_value'])}
-        prefixed_sflow.merge!(i_iface_name)
-        prefixed_sflow.merge!(o_iface_name)
-      end
+      # if sflow['i_iface_value'] and sflow['o_iface_value']
+      #   i_iface_name = {"sflow_i_iface_name" => SNMPwalk.mapswitchportname(sflow['agent_address'],sflow['i_iface_value'])}
+      #   o_iface_name = {"sflow_o_iface_name" => SNMPwalk.mapswitchportname(sflow['agent_address'],sflow['o_iface_value'])}
+      #   prefixed_sflow.merge!(i_iface_name)
+      #   prefixed_sflow.merge!(o_iface_name)
+      # end
 
       $logstash.send(prefixed_sflow.to_json, 0)
 
