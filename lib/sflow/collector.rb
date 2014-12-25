@@ -50,9 +50,9 @@ class SflowCollector
         exit 1
       end
       $switch_hash = config.switch_hash
-      if config.switch_hash != nil
-        $switchportnames = SNMPwalk.new(config.switch_hash.each_key)
-      end
+      # if config.switch_hash != nil
+      #   $switchportnames = SNMPwalk.new(config.switch_hash.each_key)
+      # end
       EventMachine::run do
         EventMachine::open_datagram_socket(bind_ip, bind_port, Collector)
       end
