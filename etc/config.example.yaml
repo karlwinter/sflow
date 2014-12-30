@@ -1,0 +1,10 @@
+daemonize: true 
+
+switch:
+  1.2.3.4: "myswitch_hostname"
+  1.2.3.5: "my2ndswitch_hostname"
+
+logstash_host: "localhost"
+logstash_port: 6543
+
+
