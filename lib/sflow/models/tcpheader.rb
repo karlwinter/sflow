@@ -1,6 +1,6 @@
 class TCPHeader
 
-  attr_reader :sndr_port,:dest_port,:seq_num,:ack_num,:header_length,
+  attr_reader :src_port,:dst_port,:seq_num,:ack_num,:header_length,
     :urg,:ack,:psh,:rst,:syn,:fin,:win_size,:checksum,:emgcy_ptr,
     :packet_length,:data_length,:lower
 
@@ -9,8 +9,8 @@ class TCPHeader
     @offset = offset
     @length = length || packet.bytesize-offset
     header = packet.unpack("x#{offset}n2N2n4")
-    @sndr_port = header[0]
-    @dest_port = header[1]
+    @src_port = header[0]
+    @dst_port = header[1]
     @seq_num = header[2]
     @ack_num = header[3]
     @header_length = (header[4]>>12)*4
@@ -62,8 +62,8 @@ class TCPHeader
 
   def to_s
     "TCP Header\n" <<
-    "  Sender Port     : #{@sndr_port}\n" <<
-    "  Destination Port: #{@dest_port}\n" <<
+    "  Sender Port     : #{@src_port}\n" <<
+    "  Destination Port: #{@dst_port}\n" <<
     "  Sequence Number : #{@seq_num}\n" <<
     "  ACK Number      : #{@ack_num}\n" <<
     "  Header Length   : #{@header_length}\n" <<

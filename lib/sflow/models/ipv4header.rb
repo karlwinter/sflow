@@ -4,7 +4,7 @@ require_relative 'protocol'
 # TODO: チェックサムを確認する
 class IPv4Header
 
-  attr_reader :version,:header_length,:packet_length,:identification,:frag_dont,:frag_more,:frag_offset,:ttl,:protocol,:checksum,:sndr_addr,:dest_addr,
+  attr_reader :version,:header_length,:packet_length,:identification,:frag_dont,:frag_more,:frag_offset,:ttl,:protocol,:checksum,:src_addr,:dst_addr,
     :data_length
 
   def initialize(packet,offset=0)
@@ -21,8 +21,8 @@ class IPv4Header
     @ttl = header[4] >> 8
     @protocol = header[4] & 0x00ff
     @checksum = header[5]
-    @sndr_addr = ip_to_s(packet[12..15])
-    @dest_addr = ip_to_s(packet[16..19])
+    @src_addr = ip_to_s(packet[12..15])
+    @dst_addr = ip_to_s(packet[16..19])
     @data_length = @packet_length - @header_length
 
     @virtual_header = packet[12..19] + [0,6,@data_length].pack("CCn")
@@ -61,8 +61,8 @@ class IPv4Header
     "  TTL                : #{@ttl}\n" <<
     "  Protocol           : #{Protocol.to_s(@protocol)}\n" <<
     "  Header Checksum    : #{@checksum}\n" <<
-    "  Sender Address     : #{@sndr_addr}\n" <<
-    "  Destination Address: #{@dest_addr}\n" <<
+    "  Sender Address     : #{@src_addr}\n" <<
+    "  Destination Address: #{@dst_addr}\n" <<
     "  (Data Length)      : #{@data_length}"
   end
 

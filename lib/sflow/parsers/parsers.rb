@@ -73,8 +73,8 @@ class SflowParser
         "header_length" => ipv4.header_length,
         "packet_length" => ipv4.packet_length,
         "protocol" => ipv4.protocol,
-        "sndr_addr" => ipv4.sndr_addr,
-        "dest_addr" => ipv4.dest_addr
+        "src_addr" => ipv4.src_addr,
+        "dst_addr" => ipv4.dst_addr
     }
 
     if ipv4.protocol == 6

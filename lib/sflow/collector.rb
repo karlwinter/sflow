@@ -35,15 +35,15 @@ class SflowCollector
                     "i_iface_value" => sample["i_iface_value"],
                     "o_iface_value" => sample["o_iface_value"],
 
-                    "sndr_addr" => packet["sndr_addr"],
-                    "dest_addr" => packet["dest_addr"],
+                    "src_addr" => packet["src_addr"],
+                    "dst_addr" => packet["dst_addr"],
                     "protocol" => packet["protocol"]
                 }
 
                 if packet["protocol"] == 6 # tcp
                   flow_data.merge!({
-                      "sndr_port" => packet["tcp"].sndr_port,
-                      "dest_port" => packet["tcp"].dest_port,
+                      "src_port" => packet["tcp"].src_port,
+                      "dst_port" => packet["tcp"].dst_port,
                       "tcp_urg" => packet["tcp"].urg,
                       "tcp_ack" => packet["tcp"].ack,
                       "tcp_psh" => packet["tcp"].psh,
@@ -53,8 +53,8 @@ class SflowCollector
                   })
                 elsif packet["protocol"] == 17 # udp
                   flow_data.merge!({
-                      "sndr_port" => packet["udp"].sndr_port,
-                      "dest_port" => packet["udp"].dest_port
+                      "src_port" => packet["udp"].src_port,
+                      "dst_port" => packet["udp"].dst_port
                    })
                 end
 
